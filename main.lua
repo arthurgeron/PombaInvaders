@@ -1,6 +1,7 @@
+
+--General function for creating dynamic elements in the game
 function createElement(largura, altura, cor, x, y, _tipoDeComponente)
   _baseMovementSpeedX = (math.floor((math.random() * 1) + 0) + 1 - 1.15) *  ((math.random(1,2)*2)-3) --Numero negativo ou positivo para definir a direcao do veiculo aleatoriamente. Random speed between 10 and 20
-    print(_baseMovementSpeedX)
     if(_tipoDeComponente.tipo == "inimigo") then
       _warp = _tipoDeComponente.warp
       if(_warp == false) then
@@ -85,6 +86,13 @@ function createElement(largura, altura, cor, x, y, _tipoDeComponente)
     return elemento
 end
 
+--Returns the length of a table
+function tablelength(T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
+
 --Check for collision between two objects
 function CheckCollision(object1, object2)
   return object1.x < object2.x+object2.width and
@@ -110,6 +118,8 @@ function NewParticle(xpos,ypos)
   return particle
 end
 function love.load ()
+  --Shots timer
+  bulletsTimer =love.timer.getTime()
   --Background
   love.graphics.setBackgroundColor(176,224,230)
   particles = {}
@@ -128,8 +138,10 @@ function love.load ()
     bullets={},
     tipo = tipoDeComponente.player,
     fire=function()
-      table.insert(player.bullets, { x=player.x + 15, y=player.y, width = 10, height = 10})
+      table.insert(player.bullets, { x=player.x + (player.width/2) , y=player.y, width = 8, height = 20})
+      --Plays audio only once
       love.audio.play(love.audio.newSource("laser.mp3","stream"))
+
     end
   }
 
@@ -179,19 +191,23 @@ function love.update (dt)
     player.y = player.y + 1
   end
 
-  if love.keyboard.isDown(' ') then
-    player.fire()
+  if love.keyboard.isDown(' ')  then
+    if (love.timer.getTime() - bulletsTimer) * 1000 > 1000 then
+      bulletsTimer = love.timer.getTime()
+      player.fire()
+    end
   end
 
   for index, bullet in ipairs(player.bullets) do
-    if bullet.y > love.graphics.getHeight() then
-      table.remove(player.bullets, i)
+    if bullet.y < (0 - bullet.height) then
+      table.remove(player.bullets, index)
     end
-    bullet.y = bullet.y - 10
+    --Bullet speed movement
+    bullet.y = bullet.y - 1
     for index2, obstacle in ipairs(obstaculos) do
       if(CheckCollision(bullet,obstacle)) then
         table.insert(particles,NewParticle(bullet.x + (bullet.width/2),bullet.y+(bullet.height/2)))
-        table.remove(player.bullets, index)
+        table.remove(player.bullets, index )
         table.remove(obstaculos,index2)
         love.audio.play(love.audio.newSource("blast.mp3","static"))
       end
@@ -206,19 +222,29 @@ function love.update (dt)
 
 end
 
+function love.keypressed(key, u)
+   --Debug
+   if key == "lctrl" then --set to whatever key you want to use
+      debug.debug()
+   end
+end
+
 function love.draw ()
   --Draws shots
+  for _, bullet in pairs(player.bullets) do
+    love.graphics.setColor(255, 0, 0)
+    love.graphics.rectangle('fill', bullet.x, bullet.y, bullet.width, bullet.height)
+  end
+  --Draw effect particles
   for index, particle in ipairs(particles) do
     love.graphics.draw(particle.ps, particle.x, particle.y)
   end
+  --Draws Player
   love.graphics.setColor(255, 255, 0)
   love.graphics.rectangle('fill', player.x, player.y, player.width, player.height)
   love.graphics.setColor(255, 255, 255)
-  for _, bullet in pairs(player.bullets) do
-    love.graphics.setColor(255, 0, 0)
-    love.graphics.rectangle('fill', bullet.x, bullet.y, 10, 10)
-  end
-  --Desenha os obstaculos
+
+  --Draws enemies
   for index, obstaculo in ipairs(obstaculos) do
     love.graphics.setColor(0,0,0)
     love.graphics.rectangle('fill', obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height)
