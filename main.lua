@@ -1,9 +1,9 @@
 
 --General function for creating dynamic elements in the game
-function createElement(largura, altura, cor, x, y, _tipoDeComponente)
+function createElement(largura, altura, cor, x, y, _type)
   _baseMovementSpeedX = (math.floor((math.random() * 1) + 0) + 1 - 1.15) *  ((math.random(1,2)*2)-3) --Numero negativo ou positivo para definir a direcao do veiculo aleatoriamente. Random speed between 10 and 20
-    if(_tipoDeComponente.tipo == "inimigo") then
-      _warp = _tipoDeComponente.warp
+    if(_type.value == "enemy") then
+      _warp = _type.warp
       if(_warp == false) then
         if(_baseMovementSpeedX>0) then
           _maxX = x + 200
@@ -26,7 +26,7 @@ function createElement(largura, altura, cor, x, y, _tipoDeComponente)
     elemento = {
       width = largura,
       height = altura,
-      tipoDeComponente = _tipoDeComponente,
+      type = _type,
       warp = _warp,
       maxX = _maxX,
       minX = _minX,
@@ -37,8 +37,8 @@ function createElement(largura, altura, cor, x, y, _tipoDeComponente)
       initialX = x,
       initialY = y,
 
-      calcularNovaPos = function (this)
-          if (this.tipoDeComponente.tipo == "obstaculo") then
+      calculateNewPosition = function (this)
+          if (this.type.value == "obstacle") then
               if this.x > love.graphics.getWidth() or this.x < 0 then
                   this.x = this.initialX
               else
@@ -53,7 +53,7 @@ function createElement(largura, altura, cor, x, y, _tipoDeComponente)
                 lost()
               end
 
-          elseif (this.tipoDeComponente.tipo == "inimigo") then
+          elseif (this.type.value == "enemy") then
             if (this.warp == true) then
               if this.x > love.graphics.getWidth() or this.x < 0 then
                   this.x = this.initialX
@@ -123,12 +123,12 @@ function love.load ()
   --Background
   love.graphics.setBackgroundColor(176,224,230)
   particles = {}
-  obstaculos = {}
-  tipoDeComponente = {
-    player = {tipo = "player"},
-    obstaculo = {tipo = "obstaculo"},
-    inimigo1 = {tipo = "inimigo", warp = true },
-    inimigo2 = {tipo = "inimigo", warp = false }
+  enemies = {}
+  type = {
+    player = {value = "player"},
+    obstacle = {value = "obstacle"},
+    enemy1 = {value = "enemy", warp = true },
+    enemy2 = {value = "enemy", warp = false }
   }
   player = {
     x = love.graphics.getWidth( )/2,
@@ -136,7 +136,7 @@ function love.load ()
     width = 40,
     height = 40,
     bullets={},
-    tipo = tipoDeComponente.player,
+    value = type.player,
     fire=function()
       table.insert(player.bullets, { x=player.x + (player.width/2) , y=player.y, width = 8, height = 20})
       --Plays audio only once
@@ -146,24 +146,24 @@ function love.load ()
   }
 
 
-  --Calcula a quantidade de obstaculos a serem alocados
-  posicionador = 60
-  espacamento = 20
+  --Calcula a quantidade de enemies a serem alocados
+  positioner = 60
+  spacing = 20
   while true do
-      larguraObstaculo = 40
-      alturaObstaculo = 10
-      obstaculo = createElement(larguraObstaculo,alturaObstaculo, 0, 0, posicionador, tipoDeComponente.inimigo2)
-      if obstaculo.baseMovementSpeedX > 0 then
-        obstaculo.x = 0
+      width = 40
+      height = 10
+      enemy = createElement(width,height, 0, 0, positioner, type.enemy2)
+      if enemy.baseMovementSpeedX > 0 then
+        enemy.x = 0
       else
-        obstaculo.x =  love.graphics.getWidth()
-        obstaculo.initialX = love.graphics.getWidth()
+        enemy.x =  love.graphics.getWidth()
+        enemy.initialX = love.graphics.getWidth()
       end
-      table.insert(obstaculos, obstaculo)
-      if posicionador + espacamento + alturaObstaculo + 10 >= love.graphics.getHeight() - 40 then
+      table.insert(enemies, enemy)
+      if positioner + spacing + height + 10 >= love.graphics.getHeight() - 40 then
             return
       else
-            posicionador = posicionador + espacamento
+            positioner = positioner + spacing
       end
   end
 end
@@ -173,9 +173,9 @@ function lost()
 end
 
 function love.update (dt)
-  --Atualiza a posicao dos obstaculos
-  for index, obstaculo in ipairs(obstaculos) do
-    obstaculo.calcularNovaPos(obstaculo)
+  --Atualiza a posicao dos enemies
+  for index, enemy in ipairs(enemies) do
+    enemy.calculateNewPosition(enemy)
   end
 
   if love.keyboard.isDown('right') then
@@ -204,11 +204,11 @@ function love.update (dt)
     end
     --Bullet speed movement
     bullet.y = bullet.y - 1
-    for index2, obstacle in ipairs(obstaculos) do
+    for index2, obstacle in ipairs(enemies) do
       if(CheckCollision(bullet,obstacle)) then
         table.insert(particles,NewParticle(bullet.x + (bullet.width/2),bullet.y+(bullet.height/2)))
         table.remove(player.bullets, index )
-        table.remove(obstaculos,index2)
+        table.remove(enemies,index2)
         love.audio.play(love.audio.newSource("blast.mp3","static"))
       end
     end
@@ -245,9 +245,9 @@ function love.draw ()
   love.graphics.setColor(255, 255, 255)
 
   --Draws enemies
-  for index, obstaculo in ipairs(obstaculos) do
+  for index, enemy in ipairs(enemies) do
     love.graphics.setColor(0,0,0)
-    love.graphics.rectangle('fill', obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height)
+    love.graphics.rectangle('fill', enemy.x, enemy.y, enemy.width, enemy.height)
   end
 
 
