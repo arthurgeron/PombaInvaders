@@ -1,4 +1,4 @@
-enemies = {}
+
 --Calculates and update enemies positions
 function CalculateNewEnemiesPositions(enemiesList)
   --Updates enemies positions

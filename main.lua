@@ -1,9 +1,23 @@
-
 --Module for creating new elements in game
 require "classes/element"
-
+require "classes/misc"
 
 function love.load ()
+
+
+  --Window title
+  love.window.setTitle("Pomba Invaders")
+  --Our tables where we will place our elements
+  particles = {}
+  enemies = {}
+  --My a list of objets that will work like Enum objects
+  type = {
+    player = {value = "player"},
+    obstacle = {value = "obstacle"},
+    enemy1 = {value = "enemy", warp = true },
+    enemy2 = {value = "enemy", warp = false }
+  }
+
   --Shots timer
   bulletsTimer =love.timer.getTime()
   --Background
@@ -31,17 +45,13 @@ function love.update (dt)
   checkKeyDownAndFireBullet()
 
 --Loops trough current existing bullets table
-  DetectBulletCollisions()
+  DetectBulletCollisions(player.bullets,particles)
 
-  CheckAndRemoveParticles(particles)
-
+  CheckAndUpdateParticles(particles,dt)
 end
 
 function love.keypressed(key, u)
    --Debug
-   if key == "lctrl" then --set to whatever key you want to use
-      debug.debug()
-   end
 end
 
 function love.draw ()
@@ -50,10 +60,7 @@ function love.draw ()
     love.graphics.setColor(255, 0, 0)
     love.graphics.rectangle('fill', bullet.x, bullet.y, bullet.width, bullet.height)
   end
-  --Draw effect particles
-  for index, particle in ipairs(particles) do
-    love.graphics.draw(particle.ps, particle.x, particle.y)
-  end
+
   --Draws Player
   love.graphics.setColor(255, 255, 0)
   love.graphics.rectangle('fill', player.x, player.y, player.width, player.height)
@@ -63,6 +70,11 @@ function love.draw ()
   for index, enemy in ipairs(enemies) do
     love.graphics.setColor(0,0,0)
     love.graphics.rectangle('fill', enemy.x, enemy.y, enemy.width, enemy.height)
+  end
+  --Draw effect particles
+  for index, particle in ipairs(particles) do
+    love.graphics.draw(particle.ps, particle.x, particle.y)
+    print("hi")
   end
 
 
