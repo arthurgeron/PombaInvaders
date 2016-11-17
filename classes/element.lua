@@ -5,6 +5,14 @@ require "classes/enemy"
 require "classes/bullet"
 require "classes/collision"
 
+--Type of elements, works like Enum objects
+type = {
+  player = {value = "player"},
+  bullet = {value = "bullet"},
+  obstacle = {value = "obstacle"},
+  enemy1 = {value = "enemy", warp = true },
+  enemy2 = {value = "enemy", warp = false }
+}
 
 --General function for creating dynamic elements in the game
 function createElement(initialWidth, initialHeight, initialColor, x, y, _type)
@@ -43,6 +51,7 @@ function createElement(initialWidth, initialHeight, initialColor, x, y, _type)
       y = y,
       initialX = x,
       initialY = y,
+      timer = -1,
 
       calculateNewPosition = function (this)
           if (this.type.value == "obstacle") then

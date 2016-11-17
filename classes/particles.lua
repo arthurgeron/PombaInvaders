@@ -1,3 +1,4 @@
+particles = {}
 --Creating particles
 function NewExplosionParticle(xpos,ypos)
   particle = NewParticle('media/images/square.png',xpos,ypos)

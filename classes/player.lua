@@ -1,16 +1,16 @@
 --Reads keyboard input and updates player position
 
 function checkKeyInputAndMovePlayer(player)
-  if love.keyboard.isDown('right') then
+  if love.keyboard.isDown('right') and player.x < love.graphics.getWidth() - player.width then
     player.x = player.x + 1
   end
-  if love.keyboard.isDown('left') then
+  if love.keyboard.isDown('left') and player.x > 1 then
     player.x = player.x - 1
   end
-  if love.keyboard.isDown('up') then
+  if love.keyboard.isDown('up') and player.y > love.graphics.getHeight() * 0.6 then
     player.y = player.y - 1
   end
-  if love.keyboard.isDown('down') then
+  if love.keyboard.isDown('down') and player.y <  love.graphics.getHeight() - player.height  then
     player.y = player.y + 1
   end
 end
@@ -25,6 +25,11 @@ function checkKeyDownAndFireBullet()
   end
 end
 
+--Registers player death
+function killPlayer()
+
+end
+
 --Returns default player object
 function getDefaultPlayer()
   player = {
@@ -35,7 +40,7 @@ function getDefaultPlayer()
     bullets={},
     value = type.player,
     fire=function()
-      table.insert(player.bullets, { x=player.x + (player.width/2) , y=player.y, width = 8, height = 20})
+      fireBullet(-1,false,player.x + (player.width / 2),player.y, 8, 20)
       --Plays audio only once
       love.audio.play(love.audio.newSource("media/audio/laser.mp3","stream"))
 

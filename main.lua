@@ -8,15 +8,7 @@ function love.load ()
   --Window title
   love.window.setTitle("Pomba Invaders")
   --Our tables where we will place our elements
-  particles = {}
-  enemies = {}
-  --My a list of objets that will work like Enum objects
-  type = {
-    player = {value = "player"},
-    obstacle = {value = "obstacle"},
-    enemy1 = {value = "enemy", warp = true },
-    enemy2 = {value = "enemy", warp = false }
-  }
+
 
   --Shots timer
   bulletsTimer =love.timer.getTime()
@@ -47,7 +39,12 @@ function love.update (dt)
 --Loops trough current existing bullets table
   DetectBulletCollisions(player.bullets,particles)
 
+--Update particles' state so they can be drawed
   CheckAndUpdateParticles(particles,dt)
+
+--Randomly makes a percentage of the total number of enemies shoot bullets each three seconds
+  randomShootingTrigger(100)
+
 end
 
 function love.keypressed(key, u)
