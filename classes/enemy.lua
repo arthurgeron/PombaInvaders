@@ -24,13 +24,27 @@ function randomShootingTrigger(percentageOfEnemyes)
   end
 end
 --Create enemy
-function createEnemy(enemiesTable,x,y,width,height)
+function createEnemy(enemiesTable,x,y,width,height, direction, maxXDistanceToMove)
   enemy = createElement(width,height, 0, x, y, type.enemy2)
-  if enemy.baseMovementSpeedX > 0 then
-    enemy.x = 0
+  enemy.x = x
+  enemy.y = y
+  enemy.initialX = x
+  if(direction>0) then--Makes sure the enemy will move in the right direction
+    if(enemy.baseMovementSpeedX<0) then
+      enemy.baseMovementSpeedX = enemy.baseMovementSpeedX * -1
+    end
   else
-    enemy.x =  love.graphics.getWidth()
-    enemy.initialX = love.graphics.getWidth()
+    if(enemy.baseMovementSpeedX>0) then
+      enemy.baseMovementSpeedX = enemy.baseMovementSpeedX * -1
+    end
+  end
+  --Limits the horizontal movement
+  if enemy.baseMovementSpeedX > 0 then
+    enemy.maxX = enemy.x + maxXDistanceToMove
+    enemy.minX = enemy.x
+  else
+    enemy.minX = enemy.x - maxXDistanceToMove
+    enemy.maxX = enemy.x
   end
   --Defines enemy timer which will be used for random shooting
   enemy.timer = love.timer.getTime()
@@ -38,14 +52,43 @@ function createEnemy(enemiesTable,x,y,width,height)
 end
 --Calculates quantity of enemies that will be placed in the screen
 function calculateAndInsertEnemies(enemiesTable,startingY,Yspacing,width,height)
-  currentPosition = startingY
+  startingX = 0+width+10
+  Xspacing = 60
+  currentYPosition = startingY
+  currentXPosition = startingX
+  xDistanceToMove = 200
+  currentEnemyBlock = 1
   while true do
-      enemy = createEnemy(enemiesTable,0,currentPosition,width,height)
+    if(currentEnemyBlock==1) then --For now we will only work with 2 enemies blocks, one moving to the right and the other to the left
+      enemy = createEnemy(enemiesTable,currentXPosition,currentYPosition,width,height,1,xDistanceToMove)
       table.insert(enemiesTable, enemy)
-      if currentPosition + Yspacing + height + 10 >= love.graphics.getHeight() - player.height then
-            return
+      if enemy.x + enemy.width + xDistanceToMove > love.graphics.getWidth()/2 then--Calculates if there's enough space for another enemy to be alocated move
+        currentYPosition = currentYPosition + Yspacing--If theres no space left he moves to the next line
+        currentXPosition = startingX --Resets X positioner
       else
-            currentPosition = currentPosition + Yspacing
+        currentXPosition = currentXPosition + Xspacing
       end
+      if currentYPosition + Yspacing + height + 10 >= love.graphics.getHeight() - player.height  then--Checks if there are any lines left to fill, if not it will prepare the variables for the next block
+            currentEnemyBlock = currentEnemyBlock + 1
+            startingX = love.graphics.getWidth() - 10 - width
+            currentYPosition = startingY
+            currentXPosition = startingX
+      end
+    else if (currentEnemyBlock==2) then--Same thing as first block but working with a minus X movement
+      enemy = createEnemy(enemiesTable,currentXPosition,currentYPosition,width,height,-1,xDistanceToMove)
+      table.insert(enemiesTable, enemy)
+      if enemy.x - enemy.width - xDistanceToMove < love.graphics.getWidth()/2 then
+        currentYPosition = currentYPosition + Yspacing
+        currentXPosition = startingX
+      else
+        currentXPosition = currentXPosition - Xspacing
+      end
+      if currentYPosition + Yspacing + height + 10 >= love.graphics.getHeight() - player.height  then
+            currentEnemyBlock = currentEnemyBlock + 1
+      end
+    else
+      return
+    end
   end
+end
 end

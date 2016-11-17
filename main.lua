@@ -52,21 +52,23 @@ function love.keypressed(key, u)
 end
 
 function love.draw ()
-  --Draws shots
-  for _, bullet in pairs(player.bullets) do
-    love.graphics.setColor(255, 0, 0)
-    love.graphics.rectangle('fill', bullet.x, bullet.y, bullet.width, bullet.height)
-  end
+
 
   --Draws Player
-  love.graphics.setColor(255, 255, 0)
+  love.graphics.setColor(255, 0, 0)
   love.graphics.rectangle('fill', player.x, player.y, player.width, player.height)
-  love.graphics.setColor(255, 255, 255)
+  love.graphics.setColor(255, 0, 255)
 
   --Draws enemies
   for index, enemy in ipairs(enemies) do
     love.graphics.setColor(0,0,0)
     love.graphics.rectangle('fill', enemy.x, enemy.y, enemy.width, enemy.height)
+  end
+
+  --Draws shots
+  for _, bullet in pairs(player.bullets) do
+    love.graphics.setColor(255, 0, 0)
+    love.graphics.rectangle('fill', bullet.x, bullet.y, bullet.width, bullet.height)
   end
   --Draw effect particles
   for index, particle in ipairs(particles) do

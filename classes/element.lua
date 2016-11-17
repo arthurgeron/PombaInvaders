@@ -16,24 +16,9 @@ type = {
 
 --General function for creating dynamic elements in the game
 function createElement(initialWidth, initialHeight, initialColor, x, y, _type)
-  _baseMovementSpeedX = (math.floor((math.random() * 1) + 0) + 1 - 1.15) *  ((math.random(1,2)*2)-3) --Numero negativo ou positivo para definir a direcao do veiculo aleatoriamente. Random speed between 10 and 20
+  _baseMovementSpeedX = (math.floor((math.random() * 1) + 0) + 1 - 1.06) *  ((math.random(1,2)*2)-3) --Numero negativo ou positivo para definir a direcao do veiculo aleatoriamente. Random speed between 10 and 20
     if(_type.value == "enemy") then
       _warp = _type.warp
-      if(_warp == false) then -- If it's not a warping object
-        if(_baseMovementSpeedX>0) then
-          _maxX = x + 200 --Max movement speed
-          _minX = x --Min movement speed
-        else
-          _maxX = love.graphics.getWidth() - 40
-          _minX = love.graphics.getWidth() - 200
-        end
-      else
-        warp = false
-        _minX = -1
-        _maxX = -1
-      end
-    else
-      warp = false
       _minX = -1
       _maxX = -1
     end
