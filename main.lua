@@ -1,6 +1,7 @@
 --Module for creating new elements in game
 require "classes/element"
 require "classes/misc"
+require "classes/gui"
 
 function love.load ()
 
@@ -53,7 +54,8 @@ end
 
 function love.draw ()
 
-
+  --Draws score
+  drawScore()
   --Draws Player
   love.graphics.setColor(255, 0, 0)
   love.graphics.rectangle('fill', player.x, player.y, player.width, player.height)

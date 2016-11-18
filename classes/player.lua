@@ -42,6 +42,7 @@ function getDefaultPlayer()
     fire=function()
       fireBullet(-1,false,player.x + (player.width / 2),player.y, 8, 20)
       --Plays audio only once
+      love.audio.setVolume(5)
       love.audio.play(love.audio.newSource("media/audio/laser.mp3","stream"))
 
     end

@@ -13,6 +13,7 @@ function DetectBulletCollisions(bulletsTable,particlesTable)
       else
         for index2, enemy in ipairs(enemies) do--Checks collision with enemies
           if(CheckCollision(bullet,enemy)) then
+            addScore(10)
             CreateExplosionEffect(bullet,particlesTable) -- Creates explosion effect at the bullet's position
             table.remove(bulletsTable, index )--Removes bullet
             table.remove(enemies,index2)--Removes/kills enemy
