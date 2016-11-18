@@ -8,7 +8,7 @@ function drawScore()
     " abcdefghijklmnopqrstuvwxyz" ..
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0" ..
     "123456789.,!?-+/():;%&`'*#=[]\"")
-  love.graphics.setFont((font))
+  love.graphics.setFont(font)
   love.graphics.print(score, 0, 0)
 end
 

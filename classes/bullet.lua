@@ -17,7 +17,7 @@ function DetectBulletCollisions(bulletsTable,particlesTable)
             CreateExplosionEffect(bullet,particlesTable) -- Creates explosion effect at the bullet's position
             table.remove(bulletsTable, index )--Removes bullet
             table.remove(enemies,index2)--Removes/kills enemy
-            love.audio.play(love.audio.newSource("media/audio/blast.mp3","static"))--Blast sound
+            playBlastSound()--Blast sound
           end
         end
       end

@@ -2,7 +2,7 @@
 require "classes/element"
 require "classes/misc"
 require "classes/gui"
-
+require "classes/sound"
 function love.load ()
 
 
