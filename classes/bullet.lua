@@ -8,7 +8,10 @@ function DetectBulletCollisions(bulletsTable,particlesTable)
       bullet.y = bullet.y + bullet.direction
       if(bullet.hurtsPlayer) then
         if(CheckCollision(bullet,player)) then
-          killPlayer()
+          playBlastSound()
+          CreateExplosionEffect(player,particlesTable)
+          CreateExplosionEffect(player,particlesTable)
+          loseLevel()
         end
       else
         for index2, enemy in ipairs(enemies) do--Checks collision with enemies

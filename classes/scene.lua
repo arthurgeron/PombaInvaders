@@ -2,7 +2,7 @@
 percentageOfShootingEnemies = 0
 numberOfEnemies = 0
 currentLevel = 0
-
+_bulletTimerLimiter = 0
 function getPercentageOfShootingEnemies()
   return percentageOfShootingEnemies
 end
@@ -26,7 +26,9 @@ function winLevel()
 end
 
 function loseLevel()
-
+  resetScore()
+  loadFirstScene()
+  setAndPrintMessage("You lost!")
 end
 
 function checkLevelProgress()
@@ -47,6 +49,7 @@ function increasePercentageOfShootingEnemies()
   end
 end
 function loadFirstScene()
+  _bulletTimerLimiter = 1000
   cleanScene()
   percentageOfShootingEnemies = 10
   numberOfEnemies = 2
@@ -56,7 +59,7 @@ end
 
 function cleanScene()
   resetEnemiesTable()
-  player = getDefaultPlayer()
+  player = getDefaultPlayer(_bulletTimerLimiter)
   resetBulletsTimer()
 end
 
@@ -67,6 +70,9 @@ end
 function loadNextScene()
   oldPlayerXPos = player.x
   oldPlayerYPos = player.y
+  if(_bulletTimerLimiter>500) then
+    _bulletTimerLimiter = _bulletTimerLimiter - 100
+  end
   increaseNumberOfEnemies()
   increaseLevelNumber()
   increasePercentageOfShootingEnemies()

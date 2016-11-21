@@ -1,4 +1,5 @@
 score = 0
+highScore = 0
 messageTimer = -1
 message = nil
 function drawGUI()
@@ -15,7 +16,8 @@ end
 function drawScore()
   font = getFont()
   love.graphics.setFont(font)
-  love.graphics.print(score, 0, 0)
+  love.graphics.print("Score:" .. score, 0, 0)
+  love.graphics.print("High Score:" ..highScore,0, 30)
 end
 
 function setAndPrintMessage(_message)
@@ -33,6 +35,9 @@ end
 
 function addScore(points)
   score = score + points
+  if(score > highScore) then
+    highScore = score
+  end
 end
 
 function resetScore()

@@ -16,6 +16,8 @@ function love.load ()
 
   loadFirstScene()
 
+  --Looping background music
+  playBackgroundMusic()
 end
 
 function lost()

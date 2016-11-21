@@ -1,6 +1,6 @@
 --Reads keyboard input and updates player position
 bulletsTimer = 0
-
+bulletTimerLimiter = 0
 function resetBulletsTimer()
   bulletsTimer = love.timer.getTime()
 end
@@ -23,20 +23,16 @@ end
 function checkKeyDownAndFireBullet()
   if love.keyboard.isDown(' ')  then
     --Draws only 1 bullet each 1000 miliseconds
-    if (love.timer.getTime() - bulletsTimer) * 1000 > 1000 then
+    if (love.timer.getTime() - bulletsTimer) * 1000 > bulletTimerLimiter then
       resetBulletsTimer()
       player.fire()
     end
   end
 end
 
---Registers player death
-function killPlayer()
-
-end
 
 --Returns default player object
-function getDefaultPlayer()
+function getDefaultPlayer(_bulletTimerLimiter)
   player = {
     x = love.graphics.getWidth( )/2,
     y = love.graphics.getHeight()-40,
@@ -51,5 +47,6 @@ function getDefaultPlayer()
 
     end
   }
+  bulletTimerLimiter = _bulletTimerLimiter
   return player
 end
