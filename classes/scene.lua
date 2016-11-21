@@ -50,7 +50,7 @@ function loadFirstScene()
   cleanScene()
   percentageOfShootingEnemies = 10
   numberOfEnemies = 2
-  currentLevel = 1
+  currentLevel = 0
   sceneLoad()
 end
 
@@ -65,10 +65,14 @@ function sceneLoad()
 end
 
 function loadNextScene()
+  oldPlayerXPos = player.x
+  oldPlayerYPos = player.y
   increaseNumberOfEnemies()
   increaseLevelNumber()
   increasePercentageOfShootingEnemies()
   cleanScene()
   sceneLoad()
-  love.window.setTitle("Pomba Invaders - Level ", getCurrentLevel())
+  player.x = oldPlayerXPos
+  player.y = oldPlayerYPos
+  love.window.setTitle("Pomba Invaders - Level " .. getCurrentLevel())
 end
