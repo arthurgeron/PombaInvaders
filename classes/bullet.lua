@@ -15,13 +15,17 @@ function DetectBulletCollisions(bulletsTable,particlesTable)
           if(CheckCollision(bullet,enemy)) then
             addScore(10)
             CreateExplosionEffect(bullet,particlesTable) -- Creates explosion effect at the bullet's position
-            table.remove(bulletsTable, index )--Removes bullet
-            table.remove(enemies,index2)--Removes/kills enemy
+            killBullet(index)--Removes bullet
+            killEnemy(index2)--Removes/kills enemy
             playBlastSound()--Blast sound
           end
         end
       end
     end
+end
+
+function killBullet(index)
+  table.remove(bulletsTable, index)--Removes bullet
 end
 
 --Creates bullet

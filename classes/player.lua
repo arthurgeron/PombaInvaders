@@ -1,4 +1,9 @@
 --Reads keyboard input and updates player position
+bulletsTimer = 0
+
+function resetBulletsTimer()
+  bulletsTimer = love.timer.getTime()
+end
 
 function checkKeyInputAndMovePlayer(player)
   if love.keyboard.isDown('right') and player.x < love.graphics.getWidth() - player.width then
@@ -19,7 +24,7 @@ function checkKeyDownAndFireBullet()
   if love.keyboard.isDown(' ')  then
     --Draws only 1 bullet each 1000 miliseconds
     if (love.timer.getTime() - bulletsTimer) * 1000 > 1000 then
-      bulletsTimer = love.timer.getTime()
+      resetBulletsTimer()
       player.fire()
     end
   end

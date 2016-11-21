@@ -16,7 +16,7 @@ type = {
 
 --General function for creating dynamic elements in the game
 function createElement(initialWidth, initialHeight, initialColor, x, y, _type)
-  _baseMovementSpeedX = (math.floor((math.random() * 1) + 0) + 1 - 1.06) *  ((math.random(1,2)*2)-3) --Numero negativo ou positivo para definir a direcao do veiculo aleatoriamente. Random speed between 10 and 20
+  _baseMovementSpeedX = (math.floor((math.random() * 1) + 0) + 1 - 1.06) --Random speed between 10 and 20
     if(_type.value == "enemy") then
       _warp = _type.warp
       _minX = -1
@@ -54,8 +54,8 @@ function createElement(initialWidth, initialHeight, initialColor, x, y, _type)
                 lost()
               end
 
-          elseif (this.type.value == "enemy") then
-            if (this.warp == true) then
+          elseif (this.type.value == "enemy") then -- If it's an enemy
+            if (this.warp == true) then -- If it's a warping object
               if this.x > love.graphics.getWidth() or this.x < 0 then
                   this.x = this.initialX
               else
@@ -66,7 +66,7 @@ function createElement(initialWidth, initialHeight, initialColor, x, y, _type)
                else
                   this.y  = this.y  +  this.speedY
               end
-            else
+            else -- If it's not a warping object
               if ((this.baseMovementSpeedX > 0 and this.x >= this.maxX) or (this.baseMovementSpeedX < 0 and this.x <= this.minX)) then
                 this.y = this.y + 10
                 this.baseMovementSpeedX = this.baseMovementSpeedX * -1

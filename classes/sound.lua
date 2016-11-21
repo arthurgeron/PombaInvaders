@@ -1,7 +1,14 @@
 function playSound(location,volume,loop)
-  --Plays audio only once
+
   love.audio.setVolume(volume)
-  love.audio.play(love.audio.newSource(location,"stream"))
+  --Plays audio only once
+  if(loop) then
+    audio = love.audio.newSource(location)
+    audio:setLooping(true)
+  else
+    audio = love.audio.newSource(location,"stream") -- Stream argument pre-loads sounds in the memory, good only for small sound files
+  end
+  love.audio.play(audio)
 end
 
 

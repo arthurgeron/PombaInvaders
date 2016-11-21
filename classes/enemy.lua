@@ -1,4 +1,15 @@
 enemies = {}
+function resetEnemiesTable()
+  enemies = {}
+end
+
+function getNumberOfEnemies()
+  return tableLength(enemies)
+end
+
+function killEnemy(index)
+  table.remove(enemies,index)--Removes/kills enemy
+end
 --Calculates and update enemies positions
 function CalculateNewEnemiesPositions(enemiesList)
   --Updates enemies positions
@@ -51,14 +62,16 @@ function createEnemy(enemiesTable,x,y,width,height, direction, maxXDistanceToMov
   return enemy
 end
 --Calculates quantity of enemies that will be placed in the screen
-function calculateAndInsertEnemies(enemiesTable,startingY,Yspacing,width,height)
+function calculateAndInsertEnemies(enemiesTable, quantity, startingY,Yspacing,width,height)
   startingX = 0+width+10
   Xspacing = 60
+  counter = 0
   currentYPosition = startingY
   currentXPosition = startingX
   xDistanceToMove = 200
   currentEnemyBlock = 1
-  while true do
+  while counter < quantity do
+    counter = counter + 1
     if(currentEnemyBlock==1) then --For now we will only work with 2 enemies blocks, one moving to the right and the other to the left
       enemy = createEnemy(enemiesTable,currentXPosition,currentYPosition,width,height,1,xDistanceToMove)
       table.insert(enemiesTable, enemy)
@@ -68,7 +81,7 @@ function calculateAndInsertEnemies(enemiesTable,startingY,Yspacing,width,height)
       else
         currentXPosition = currentXPosition + Xspacing
       end
-      if currentYPosition + Yspacing + height + 10 >= love.graphics.getHeight() - player.height  then--Checks if there are any lines left to fill, if not it will prepare the variables for the next block
+      if currentYPosition + Yspacing + height + 10 >= love.graphics.getHeight() - player.height or counter >= quantity / 2  then--Checks if there are any lines left to fill, if not it will prepare the variables for the next block
             currentEnemyBlock = currentEnemyBlock + 1
             startingX = love.graphics.getWidth() - 10 - width
             currentYPosition = startingY
@@ -83,12 +96,14 @@ function calculateAndInsertEnemies(enemiesTable,startingY,Yspacing,width,height)
       else
         currentXPosition = currentXPosition - Xspacing
       end
-      if currentYPosition + Yspacing + height + 10 >= love.graphics.getHeight() - player.height  then
+      if currentYPosition + Yspacing + height + 10 >= love.graphics.getHeight() - player.height or counter >= quantity  then
             currentEnemyBlock = currentEnemyBlock + 1
       end
     else
       return
     end
+
+    print(counter)
   end
 end
 end

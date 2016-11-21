@@ -3,23 +3,19 @@ require "classes/element"
 require "classes/misc"
 require "classes/gui"
 require "classes/sound"
+require "classes/scene"
 function love.load ()
 
 
   --Window title
-  love.window.setTitle("Pomba Invaders")
+  love.window.setTitle("Pomba Invaders - Level 0 ")
   --Our tables where we will place our elements
 
-
-  --Shots timer
-  bulletsTimer =love.timer.getTime()
   --Background
   love.graphics.setBackgroundColor(176,224,230)
 
-  player = getDefaultPlayer()
+  loadFirstScene()
 
-  --Calculates quantity of enemies that will be placed in the screen
-  calculateAndInsertEnemies(enemies,60,20,40,10)
 end
 
 function lost()
@@ -44,7 +40,9 @@ function love.update (dt)
   CheckAndUpdateParticles(particles,dt)
 
 --Randomly makes a percentage of the total number of enemies shoot bullets each three seconds
-  randomShootingTrigger(100)
+  randomShootingTrigger(getPercentageOfShootingEnemies())
+
+  checkLevelProgress()
 
 end
 
@@ -75,7 +73,6 @@ function love.draw ()
   --Draw effect particles
   for index, particle in ipairs(particles) do
     love.graphics.draw(particle.ps, particle.x, particle.y)
-    print("hi")
   end
 
 
