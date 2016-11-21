@@ -14,6 +14,7 @@ function getFont()
 end
 
 function drawScore()
+  love.graphics.setColor(255, 0, 0)
   font = getFont()
   love.graphics.setFont(font)
   love.graphics.print("Score:" .. score, 0, 0)
@@ -29,6 +30,7 @@ function drawMessage()
     if((love.timer.getTime()- messageTimer) * 1000 < 2000 ) then
       font = getFont()
       love.graphics.setFont(font)
+      love.graphics.setColor(255, 0, 0)
       love.graphics.print(message, love.graphics.getWidth()*0.40, love.graphics.getHeight()*0.40)
     end
 end
