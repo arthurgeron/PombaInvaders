@@ -44,6 +44,8 @@ function love.update (dt)
 
   checkLevelProgress()
 
+
+
 end
 
 function love.keypressed(key, u)
@@ -54,6 +56,9 @@ function love.draw ()
 
   --Draws score
   drawScore()
+
+  --Draws message(if any)
+  drawMessage()
   --Draws Player
   love.graphics.setColor(255, 0, 0)
   love.graphics.rectangle('fill', player.x, player.y, player.width, player.height)

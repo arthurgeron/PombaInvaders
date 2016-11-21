@@ -20,9 +20,9 @@ function increaseNumberOfEnemies()
 end
 
 function winLevel()
-  print('won level')
   addScore(100)
   loadNextScene()
+  setAndPrintMessage("Level "..getCurrentLevel().."!")
 end
 
 function loseLevel()
