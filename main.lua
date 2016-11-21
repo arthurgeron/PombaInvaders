@@ -36,6 +36,9 @@ function love.update (dt)
     end
   end
 
+  --Checks if user wants to stop or play background music
+  checkAndStopOrPlayBackgroundMusic()
+
   if(paused~=true) then
     --Updates enemies positions
     CalculateNewEnemiesPositions(enemies)
