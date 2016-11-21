@@ -21,18 +21,26 @@ function drawScore()
   love.graphics.print("High Score:" ..highScore,0, 30)
 end
 
+function drawPausedGameMessage()
+  displayMessageInMiddleOfScreen("Game Paused!")
+end
+
 function setAndPrintMessage(_message)
   messageTimer = love.timer.getTime()
   message = _message
 end
 
-function drawMessage()
+function drawLevelMessage()
     if((love.timer.getTime()- messageTimer) * 1000 < 2000 ) then
-      font = getFont()
-      love.graphics.setFont(font)
-      love.graphics.setColor(255, 0, 0)
-      love.graphics.print(message, love.graphics.getWidth()*0.40, love.graphics.getHeight()*0.40)
+      displayMessageInMiddleOfScreen(message)
     end
+end
+
+function displayMessageInMiddleOfScreen(_message)
+  font = getFont()
+  love.graphics.setFont(font)
+  love.graphics.setColor(255, 0, 0)
+  love.graphics.print(_message, love.graphics.getWidth()*0.40, love.graphics.getHeight()*0.40)
 end
 
 function addScore(points)

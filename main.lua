@@ -6,6 +6,7 @@ require "classes/sound"
 require "classes/scene"
 function love.load ()
 
+  paused = false
 
   --Window title
   love.window.setTitle("Pomba Invaders - Level 0 ")
@@ -25,27 +26,39 @@ function lost()
 end
 
 function love.update (dt)
-  --Updates enemies positions
-  CalculateNewEnemiesPositions(enemies)
+
+  --Check if player wants to pause the game
+  if love.keyboard.isDown('p')  then
+    if(paused) then
+      paused = false
+    else
+      paused = true
+    end
+  end
+
+  if(paused~=true) then
+    --Updates enemies positions
+    CalculateNewEnemiesPositions(enemies)
 
 
-  --Reads keyboard input and updates player position
-  checkKeyInputAndMovePlayer(player)
+    --Reads keyboard input and updates player position
+    checkKeyInputAndMovePlayer(player)
 
-  --Checks if the user pressed space and fires bullet
-  checkKeyDownAndFireBullet()
+    --Checks if the user pressed space and fires bullet
+    checkKeyDownAndFireBullet()
 
---Loops trough current existing bullets table
-  DetectBulletCollisions(player.bullets,particles)
+  --Loops trough current existing bullets table
+    DetectBulletCollisions(player.bullets,particles)
 
---Update particles' state so they can be drawed
-  CheckAndUpdateParticles(particles,dt)
+  --Update particles' state so they can be drawed
+    CheckAndUpdateParticles(particles,dt)
 
---Randomly makes a percentage of the total number of enemies shoot bullets each three seconds
-  randomShootingTrigger(getPercentageOfShootingEnemies())
+  --Randomly makes a percentage of the total number of enemies shoot bullets each three seconds
+    randomShootingTrigger(getPercentageOfShootingEnemies())
 
-  checkLevelProgress()
+    checkLevelProgress()
 
+  end
 
 
 end
@@ -56,11 +69,15 @@ end
 
 function love.draw ()
 
+  if(paused) then
+    drawPausedGameMessage()
+  end
   --Draws score
   drawScore()
 
   --Draws message(if any)
-  drawMessage()
+  drawLevelMessage()
+
   --Draws Player
   love.graphics.setColor(255, 0, 0)
   love.graphics.rectangle('fill', player.x, player.y, player.width, player.height)
