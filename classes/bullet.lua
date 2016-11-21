@@ -25,7 +25,7 @@ function DetectBulletCollisions(bulletsTable,particlesTable)
 end
 
 function killBullet(index)
-  table.remove(bulletsTable, index)--Removes bullet
+  table.remove(player.bullets, index)--Removes bullet
 end
 
 --Creates bullet
