@@ -4,9 +4,15 @@ require "classes/misc"
 require "classes/gui"
 require "classes/sound"
 require "classes/scene"
+require "classes/animation"
+
+
 function love.load ()
 
   paused = false
+
+
+  loadPlayerSprite()
 
   --Window title
   love.window.setTitle("Pomba Invaders - Level 0 ")
@@ -21,11 +27,11 @@ function love.load ()
   playBackgroundMusic()
 end
 
-function lost()
-
-end
 
 function love.update (dt)
+
+
+  updatePlayerSpriteTimer(dt)
 
   --Check if player wants to pause the game
   if love.keyboard.isDown('p')  then
@@ -72,6 +78,9 @@ end
 
 function love.draw ()
 
+
+  drawPlayer()
+
   if(paused) then
     drawPausedGameMessage()
   end
@@ -82,9 +91,11 @@ function love.draw ()
   drawLevelMessage()
 
   --Draws Player
-  love.graphics.setColor(255, 0, 0)
-  love.graphics.rectangle('fill', player.x, player.y, player.width, player.height)
-  love.graphics.setColor(255, 0, 255)
+
+  -- love.graphics.setColor(255, 0, 0)
+  -- love.graphics.rectangle('fill', player.x, player.y, player.width, player.height)
+  -- love.graphics.setColor(255, 0, 255)
+
 
   --Draws enemies
   for index, enemy in ipairs(enemies) do
