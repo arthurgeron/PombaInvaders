@@ -1,7 +1,7 @@
 --Reads keyboard input and updates player position
 bulletsTimer = 0
 bulletTimerLimiter = 0
-pigeon = love.graphics.newImage("media/images/pigeonSprite.gif")
+pigeon = love.graphics.newImage("media/images/pigeonSprite2.png")
 playerTimer = 0
 FRAMES = 0
 playerIsMovingRight = false -- Work around sprite scaling bug

@@ -14,7 +14,7 @@ function getFont()
 end
 
 function drawScore()
-  love.graphics.setColor(255, 0, 0)
+  love.graphics.setColor(255, 255, 0)
   font = getFont()
   love.graphics.setFont(font)
   love.graphics.print("Score:" .. score, 0, 0)
@@ -22,7 +22,7 @@ function drawScore()
 end
 
 function drawPausedGameMessage()
-  displayMessageInMiddleOfScreen("Game Paused!")
+  displayMessageInMiddleOfScreen("Game Paused!","255,255,0")
 end
 
 function setAndPrintMessage(_message)
@@ -32,14 +32,14 @@ end
 
 function drawLevelMessage()
     if((love.timer.getTime()- messageTimer) * 1000 < 2000 ) then
-      displayMessageInMiddleOfScreen(message)
+      displayMessageInMiddleOfScreen(message, "255,255,0")
     end
 end
 
-function displayMessageInMiddleOfScreen(_message)
+function displayMessageInMiddleOfScreen(_message, color)
   font = getFont()
   love.graphics.setFont(font)
-  love.graphics.setColor(255, 0, 0)
+  love.graphics.setColor(0, 255, 0)
   love.graphics.print(_message, love.graphics.getWidth()*0.40, love.graphics.getHeight()*0.40)
 end
 
