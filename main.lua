@@ -60,7 +60,7 @@ function love.update (dt)
     checkKeyDownAndFireBullet()
 
   --Loops trough current existing bullets table
-    DetectBulletCollisions(player.bullets,particles)
+    DetectBulletCollisions(bullets,particles)
 
   --Update particles' state so they can be drawed
     CheckAndUpdateParticles(particles,dt)

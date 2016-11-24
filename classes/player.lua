@@ -4,7 +4,6 @@ local bulletTimerLimiter = 0
 pigeon = love.graphics.newImage("media/images/pigeonSprite2.png")
 playerTimer = 0
 local FRAMES = 0
-playerIsMovingRight = false -- Work around sprite scaling bug
 function resetBulletsTimer()
   bulletsTimer = love.timer.getTime()
 end
@@ -12,17 +11,9 @@ end
 function checkKeyInputAndMovePlayer(player)
   if love.keyboard.isDown('right') and player.x < love.graphics.getWidth() - player.width then
     player.x = player.x + 1
-    if(playerIsMovingRight == false) then
-      player.x = player.x + player.width
-      playerIsMovingRight = true
-    end
     player.xScale = -1
   elseif love.keyboard.isDown('left') and player.x > 1 then
     player.x = player.x - 1
-    if(playerIsMovingRight == true) then
-      player.x = player.x - player.width
-      playerIsMovingRight = false
-    end
     player.xScale = 1
   end
   if love.keyboard.isDown('up') and player.y > love.graphics.getHeight() * 0.6 then
@@ -49,17 +40,27 @@ end
 function loadPlayerSprite()
   pigeon = love.graphics.newImage("media/images/pigeonSprite2.png")
   quads = {}
-  local imgWidth, imgHeight = pigeon:getWidth(), pigeon:getHeight()
   FRAMES = 3
   playerTimer = 0
-   local spriteWidth = imgWidth / FRAMES
-   for i=0,FRAMES-1 do
-      table.insert(quads, love.graphics.newQuad(i * spriteWidth, 0, spriteWidth, imgHeight, pigeon:getDimensions()))
-   end
+  table.insert(quads, love.graphics.newQuad(3, 0,32,33 , pigeon:getDimensions()))
+  table.insert(quads, love.graphics.newQuad(54, 5, 62, 32 , pigeon:getDimensions()))
+  table.insert(quads, love.graphics.newQuad(130, 0, 58, 36, pigeon:getDimensions()))
+
 end
 
 function updatePlayerSpriteTimer(dt)
   playerTimer = playerTimer + dt * 4
+  currentQuad = (math.floor(playerTimer) % FRAMES) + 1
+  if(currentQuad == 0) then
+    player.height = 33
+    player.width = 32
+  elseif(currentQuad == 1) then
+    player.height = 32
+    player.width = 62
+  elseif(currentQuad == 2) then
+    player.height = 36
+    player.width = 58
+  end
 end
 
 function drawPlayer()

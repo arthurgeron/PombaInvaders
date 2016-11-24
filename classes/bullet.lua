@@ -1,4 +1,4 @@
-
+bullets={}
 pigeonBulletSprite = nil
 bulletQuads = {}
 
@@ -32,12 +32,12 @@ function DetectBulletCollisions(bulletsTable,particlesTable)
 end
 
 function killBullet(index)
-  table.remove(player.bullets, index)--Removes bullet
+  table.remove(bullets, index)--Removes bullet
 end
 
 
 function updatePigeoneBulletSpriteTimer(dt)
-  for index, bullet in ipairs(player.bullets) do
+  for index, bullet in ipairs(bullets) do
     if(bullet.direction == -1) then
       if (bullet.bulletSpriteTimer ~= nil) then
         bullet.bulletSpriteTimer = bullet.bulletSpriteTimer + dt * 4
@@ -48,7 +48,7 @@ end
 
 function drawBullets()
   love.graphics.setColor(255,255,255,255)
-  for index, bullet in ipairs(player.bullets) do
+  for index, bullet in ipairs(bullets) do
     if(bullet.direction == -1) then --If itś a pigeon bullet
       love.graphics.setColor(255,255,255)
       love.graphics.draw(pigeonBulletSprite, bulletQuads[(math.floor(bullet.bulletSpriteTimer) % 4) + 1], bullet.x, bullet.y)
@@ -91,5 +91,5 @@ end
 
 --Add bullet to bullet table
 function addBulletToTable(bullet)
-  table.insert(player.bullets,bullet)
+  table.insert(bullets,bullet)
 end
