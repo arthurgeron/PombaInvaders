@@ -14,6 +14,7 @@ function love.load ()
 
   loadPlayerSprite()
 
+  preLoadBulletSpriteElements()
   --Window title
   love.window.setTitle("Pomba Invaders - Level 0 ")
   --Our tables where we will place our elements
@@ -32,6 +33,8 @@ function love.update (dt)
 
 
   updatePlayerSpriteTimer(dt)
+
+  updatePigeoneBulletSpriteTimer(dt)
 
   --Check if player wants to pause the game
   if love.keyboard.isDown('p')  then
@@ -104,10 +107,7 @@ function love.draw ()
   end
 
   --Draws shots
-  for _, bullet in pairs(player.bullets) do
-    love.graphics.setColor(255, 0, 0)
-    love.graphics.rectangle('fill', bullet.x, bullet.y, bullet.width, bullet.height)
-  end
+  drawBullets()
   --Draw effect particles
   for index, particle in ipairs(particles) do
     love.graphics.draw(particle.ps, particle.x, particle.y)

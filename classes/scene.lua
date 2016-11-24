@@ -32,7 +32,6 @@ function loseLevel()
 end
 
 function checkLevelProgress()
-  print(getNumberOfEnemies())
   if(getNumberOfEnemies() == 0 ) then
     winLevel()
   end
