@@ -42,7 +42,7 @@ function loadPlayerSprite()
   quads = {}
   FRAMES = 3
   playerTimer = 0
-  table.insert(quads, love.graphics.newQuad(3, 0,32,33 , pigeon:getDimensions()))
+  table.insert(quads, love.graphics.newQuad(3, 7,32,33 , pigeon:getDimensions()))
   table.insert(quads, love.graphics.newQuad(54, 5, 62, 32 , pigeon:getDimensions()))
   table.insert(quads, love.graphics.newQuad(130, 0, 58, 36, pigeon:getDimensions()))
 
