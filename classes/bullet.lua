@@ -63,9 +63,9 @@ end
 function preLoadBulletSpriteElements()
   pigeonBulletSprite = love.graphics.newImage("media/images/BulletSprite.png")
   table.insert(bulletQuads, love.graphics.newQuad(0, 0, pigeonBulletSprite:getWidth(),30 , pigeonBulletSprite:getDimensions()))
-  table.insert(bulletQuads, love.graphics.newQuad(0, 31, pigeonBulletSprite:getWidth(), 19 , pigeonBulletSprite:getDimensions()))
-  table.insert(bulletQuads, love.graphics.newQuad(0, 51, pigeonBulletSprite:getWidth(), 12, pigeonBulletSprite:getDimensions()))
-  table.insert(bulletQuads, love.graphics.newQuad(0,  64, pigeonBulletSprite:getWidth(), 8, pigeonBulletSprite:getDimensions()))
+  table.insert(bulletQuads, love.graphics.newQuad(0, 30, pigeonBulletSprite:getWidth(), 19 , pigeonBulletSprite:getDimensions()))
+  table.insert(bulletQuads, love.graphics.newQuad(0, 49, pigeonBulletSprite:getWidth(), 13, pigeonBulletSprite:getDimensions()))
+  table.insert(bulletQuads, love.graphics.newQuad(0,  62, pigeonBulletSprite:getWidth(), 8, pigeonBulletSprite:getDimensions()))
 
 end
 
