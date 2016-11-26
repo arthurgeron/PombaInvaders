@@ -4,13 +4,14 @@ require "classes/misc"
 require "classes/gui"
 require "classes/sound"
 require "classes/scene"
-require "classes/animation"
+require "classes/background"
 
 
 function love.load ()
 
   paused = false
 
+  loadInitializeBackgroundVariables()
 
   loadPlayerSprite()
 
@@ -31,6 +32,7 @@ end
 
 function love.update (dt)
 
+  updateBackgroundPosition()
 
   updatePlayerSpriteTimer(dt)
 
@@ -81,7 +83,7 @@ end
 
 function love.draw ()
 
-
+  drawBackground()
   drawPlayer()
 
   if(paused) then
