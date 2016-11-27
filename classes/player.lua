@@ -51,21 +51,26 @@ end
 function updatePlayerSpriteTimer(dt)
   playerTimer = playerTimer + dt * 4
   currentQuad = (math.floor(playerTimer) % FRAMES) + 1
-  if(currentQuad == 0) then
+  if(currentQuad == 1) then
     player.height = 33
     player.width = 32
-  elseif(currentQuad == 1) then
+  elseif(currentQuad == 2) then
     player.height = 32
     player.width = 62
-  elseif(currentQuad == 2) then
+  elseif(currentQuad == 3) then
     player.height = 36
     player.width = 58
   end
+  print(player.width)
 end
 
 function drawPlayer()
   love.graphics.setColor(255,255,255,255)
-  love.graphics.draw(pigeon, quads[(math.floor(playerTimer) % FRAMES) + 1], player.x, player.y, player.xrotation,player.xScale,1)
+  if(player.xScale == 1 ) then
+    love.graphics.draw(pigeon, quads[(math.floor(playerTimer) % FRAMES) + 1], player.x , player.y, player.xrotation,player.xScale,1)
+  else
+    love.graphics.draw(pigeon, quads[(math.floor(playerTimer) % FRAMES) + 1], player.x + player.width, player.y, player.xrotation,player.xScale,1)
+  end
 end
 --Returns default player object
 function getDefaultPlayer(_bulletTimerLimiter)
