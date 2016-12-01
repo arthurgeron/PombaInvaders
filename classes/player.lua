@@ -1,13 +1,12 @@
 --Reads keyboard input and updates player position
 local bulletsTimer = 0
 local bulletTimerLimiter = 0
-pigeon = love.graphics.newImage("media/images/pigeonSprite2.png")
-playerTimer = 0
+local pigeonSprite = nil
+local playerTimer = 0
 local FRAMES = 0
-function resetBulletsTimer()
-  bulletsTimer = love.timer.getTime()
-end
 
+
+-- Checks and processes user input
 function checkKeyInputAndMovePlayer(player)
   if love.keyboard.isDown('right') and player.x < love.graphics.getWidth() - player.width then
     player.x = player.x + 1
@@ -26,10 +25,12 @@ function checkKeyInputAndMovePlayer(player)
     player.xrotation = 0
   end
 end
---Checks if the user pressed space and fires bullet
+
+
+-- Checks if the user pressed space and fires bullet
 function checkKeyDownAndFireBullet()
   if love.keyboard.isDown(' ')  then
-    --Draws only 1 bullet each 1000 miliseconds
+    -- Draws only 1 bullet each 1000 miliseconds
     if (love.timer.getTime() - bulletsTimer) * 1000 > bulletTimerLimiter then
       resetBulletsTimer()
       player.fire()
@@ -37,17 +38,25 @@ function checkKeyDownAndFireBullet()
   end
 end
 
-function loadPlayerSprite()
-  pigeon = love.graphics.newImage("media/images/pigeonSprite2.png")
+
+-- Pre loads player sprite
+function preLoadPlayerSprite()
+  pigeonSprite = love.graphics.newImage("media/images/pigeonSprite2.png")
   quads = {}
   FRAMES = 3
   playerTimer = 0
-  table.insert(quads, love.graphics.newQuad(3, 7,32,33 , pigeon:getDimensions()))
-  table.insert(quads, love.graphics.newQuad(54, 5, 62, 32 , pigeon:getDimensions()))
-  table.insert(quads, love.graphics.newQuad(130, 0, 58, 36, pigeon:getDimensions()))
-
+  table.insert(quads, love.graphics.newQuad(3, 7,32,33, pigeonSprite:getDimensions()))
+  table.insert(quads, love.graphics.newQuad(54, 5, 62, 32, pigeonSprite:getDimensions()))
+  table.insert(quads, love.graphics.newQuad(130, 0, 58, 36, pigeonSprite:getDimensions()))
 end
 
+
+function resetBulletsTimer()
+  bulletsTimer = love.timer.getTime()
+end
+
+
+-- Updates player's sprite, necessar for the sprite to be drawn every frame
 function updatePlayerSpriteTimer(dt)
   playerTimer = playerTimer + dt * 4
   currentQuad = (math.floor(playerTimer) % FRAMES) + 1
@@ -61,24 +70,27 @@ function updatePlayerSpriteTimer(dt)
     player.height = 36
     player.width = 58
   end
-  print(player.width)
 end
 
+
+--Draws player on screen
 function drawPlayer()
   love.graphics.setColor(255,255,255,255)
   if(player.xScale == 1 ) then
-    love.graphics.draw(pigeon, quads[(math.floor(playerTimer) % FRAMES) + 1], player.x , player.y, player.xrotation,player.xScale,1)
+    love.graphics.draw(pigeonSprite, quads[(math.floor(playerTimer) % FRAMES) + 1], player.x , player.y, player.xrotation,player.xScale,1)
   else
-    love.graphics.draw(pigeon, quads[(math.floor(playerTimer) % FRAMES) + 1], player.x + player.width, player.y, player.xrotation,player.xScale,1)
+    love.graphics.draw(pigeonSprite, quads[(math.floor(playerTimer) % FRAMES) + 1], player.x + player.width, player.y, player.xrotation,player.xScale,1)
   end
 end
+
+
 --Returns default player object
 function getDefaultPlayer(_bulletTimerLimiter)
   player = {
-    width = pigeon:getWidth()/FRAMES,
-    height = pigeon:getHeight(),
+    width = pigeonSprite:getWidth()/FRAMES,
+    height = pigeonSprite:getHeight(),
     x = love.graphics.getWidth( )/2,
-    y = love.graphics.getHeight()-pigeon:getHeight(),
+    y = love.graphics.getHeight()-pigeonSprite:getHeight(),
     xrotation = 0,
     xScale = 1,
     bullets={},
@@ -88,11 +100,9 @@ function getDefaultPlayer(_bulletTimerLimiter)
         fireBullet(-1,false,player.x - (player.width / 2),player.y, 8, 20)
       else
         fireBullet(-1,false,player.x + (player.width / 2),player.y, 8, 20)
-
       end
-      --Plays laser sound FX
+      -- Plays laser sound FX
       playLaserSound()
-
     end
   }
   bulletTimerLimiter = _bulletTimerLimiter

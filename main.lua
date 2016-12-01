@@ -11,22 +11,27 @@ function love.load ()
 
   paused = false
 
+  -- Pre-loads sprites
+
   loadInitializeBackgroundVariables()
 
-  loadPlayerSprite()
+  preLoadPlayerSprite()
 
   preLoadBulletSpriteElements()
-  --Window title
-  love.window.setTitle("Pomba Invaders - Level 0 ")
-  --Our tables where we will place our elements
 
-  --Background
+  preLoadEnemySpriteElements()
+
+  -- Window title
+  love.window.setTitle("Pomba Invaders - Level 0 ")
+
+  -- Background
   love.graphics.setBackgroundColor(176,224,230)
 
   loadFirstScene()
 
-  --Looping background music
+  -- Looping background music
   playBackgroundMusic()
+
 end
 
 
@@ -38,7 +43,9 @@ function love.update (dt)
 
   updatePigeoneBulletSpriteTimer(dt)
 
-  --Check if player wants to pause the game
+  updateEnemySpriteTimer(dt)
+
+  -- Check if player wants to pause the game
   if love.keyboard.isDown('p')  then
     if(paused) then
       paused = false
@@ -73,47 +80,35 @@ function love.update (dt)
     checkLevelProgress()
 
   end
-
-
 end
 
-function love.keypressed(key, u)
-   --Debug
-end
 
 function love.draw ()
 
+  -- Draws background
   drawBackground()
+
+  -- Draws player
   drawPlayer()
 
+  -- Display paused message if it's the case
   if(paused) then
     drawPausedGameMessage()
   end
-  --Draws score
+
+  -- Draws score
   drawScore()
 
-  --Draws message(if any)
+  -- Draws message(if any)
   drawLevelMessage()
 
-  --Draws Player
+  -- Draws enemies
+  drawEnemies()
 
-  -- love.graphics.setColor(255, 0, 0)
-  -- love.graphics.rectangle('fill', player.x, player.y, player.width, player.height)
-  -- love.graphics.setColor(255, 0, 255)
-
-
-  --Draws enemies
-  for index, enemy in ipairs(enemies) do
-    love.graphics.setColor(0,0,0)
-    love.graphics.rectangle('fill', enemy.x, enemy.y, enemy.width, enemy.height)
-  end
-
-  --Draws shots
+  -- Draws shots
   drawBullets()
-  --Draw effect particles
-  for index, particle in ipairs(particles) do
-    love.graphics.draw(particle.ps, particle.x, particle.y)
-  end
 
+  -- Draw effect particles
+  drawParticles()
 
 end

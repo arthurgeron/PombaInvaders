@@ -1,23 +1,29 @@
+local percentageOfShootingEnemies = 0
+local numberOfEnemies = 0
+local currentLevel = 0
+local _bulletTimerLimiter = 0
 
-percentageOfShootingEnemies = 0
-numberOfEnemies = 0
-currentLevel = 0
-_bulletTimerLimiter = 0
+
+-- Returns the amount of enemies that should fire
 function getPercentageOfShootingEnemies()
   return percentageOfShootingEnemies
 end
+
 
 function getCurrentLevel()
   return currentLevel
 end
 
+
 function getLevelNumberOfEnemies()
   return numberOfEnemies
 end
 
+
 function increaseNumberOfEnemies()
   numberOfEnemies = numberOfEnemies * 2
 end
+
 
 function winLevel()
   addScore(100)
@@ -25,20 +31,25 @@ function winLevel()
   setAndPrintMessage("Level "..getCurrentLevel().."!")
 end
 
+
 function loseLevel()
   resetScore()
   loadFirstScene()
   setAndPrintMessage("You lost!")
 end
 
+
 function checkLevelProgress()
   if(getNumberOfEnemies() == 0 ) then
     winLevel()
   end
 end
+
+
 function increaseLevelNumber()
   currentLevel = currentLevel + 1
 end
+
 
 function increasePercentageOfShootingEnemies()
   if(percentageOfShootingEnemies + 10 < 100) then
@@ -47,6 +58,8 @@ function increasePercentageOfShootingEnemies()
     percentageOfShootingEnemies = 100
   end
 end
+
+
 function loadFirstScene()
   _bulletTimerLimiter = 1000
   cleanScene()
@@ -56,15 +69,18 @@ function loadFirstScene()
   sceneLoad()
 end
 
+
 function cleanScene()
   resetEnemiesTable()
   player = getDefaultPlayer(_bulletTimerLimiter)
   resetBulletsTimer()
 end
 
+
 function sceneLoad()
-  calculateAndInsertEnemies(enemies,getLevelNumberOfEnemies(),60,20,40,10)
+  calculateAndInsertEnemies(enemies,getLevelNumberOfEnemies(),60,369*enemyXScaleFactor,288*enemyYScaleFactor)
 end
+
 
 function loadNextScene()
   oldPlayerXPos = player.x
@@ -72,6 +88,8 @@ function loadNextScene()
   if(_bulletTimerLimiter>500) then
     _bulletTimerLimiter = _bulletTimerLimiter - 100
   end
+  -- Makes enemies smaller so more enemies can fit the scene
+  reduceEnemyScaleFactor()
   increaseNumberOfEnemies()
   increaseLevelNumber()
   increasePercentageOfShootingEnemies()

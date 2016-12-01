@@ -16,7 +16,7 @@ end
 
 function playBackgroundMusic()
   backgroundMusicIsPlaying = true
-  backgroundMusic = playSound("media/audio/stellarartwars_-_Floating_Through_Time_(SAW_mix).mp3",0.5,true)
+  backgroundMusic = playSound("media/audio/bgmusic.mp3",0.5,true)
 end
 
 function stopBackgroundMusic()
