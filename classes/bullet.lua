@@ -47,6 +47,11 @@ function killBullet(index)
 end
 
 
+function resetBulletsTable()
+  bullets = {}
+end
+
+
 -- Updates player's bullet sprites
 function updatePigeoneBulletSpriteTimer(dt)
   for index, bullet in ipairs(bullets) do
@@ -75,6 +80,7 @@ function drawBullets()
     end
   end
 end
+
 
 --Pre load bullet sprite elements, which will be used for all the player's bullets
 function preLoadBulletSpriteElements()

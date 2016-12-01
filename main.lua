@@ -11,15 +11,6 @@ function love.load ()
 
   paused = false
 
-  -- Pre-loads sprites
-
-  loadInitializeBackgroundVariables()
-
-  preLoadPlayerSprite()
-
-  preLoadBulletSpriteElements()
-
-  preLoadEnemySpriteElements()
 
   -- Window title
   love.window.setTitle("Pomba Invaders - Level 0 ")

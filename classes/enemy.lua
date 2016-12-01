@@ -2,9 +2,11 @@ enemies = {}
 local enemySprite = nil
 local enemyQuads = {}
 local FRAMES = 0
-local enemyScaleFactor = 0.2
+local enemyScaleFactor = nil
 enemyXScaleFactor = enemyScaleFactor
 enemyYScaleFactor = enemyScaleFactor
+
+
 function resetEnemiesTable()
   enemies = {}
 end
@@ -13,7 +15,7 @@ end
 -- Reduces enemy size
 function reduceEnemyScaleFactor()
   if (enemyScaleFactor>0.1) then
-    enemyScaleFactor = enemyScaleFactor - 0.02
+    enemyScaleFactor = enemyScaleFactor - 0.005
   end
   enemyYScaleFactor = enemyScaleFactor
   enemyXScaleFactor = enemyYScaleFactor
@@ -30,6 +32,15 @@ function killEnemy(index)
   table.remove(enemies,index)--Removes/kills enemy
 end
 
+
+function initializeEnemyVariables()
+  enemyScaleFactor = 0.2
+  enemyXScaleFactor = enemyScaleFactor
+  enemyYScaleFactor = enemyScaleFactor
+  if (enemySprite == nil) then
+    preLoadEnemySpriteElements()
+  end
+end
 
 -- Pre load sprite that will be used by all enemies
 function preLoadEnemySpriteElements()

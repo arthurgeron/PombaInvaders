@@ -39,6 +39,13 @@ function checkKeyDownAndFireBullet()
 end
 
 
+function initializePlayerVariables()
+  if (pigeonSprite == nil) then
+    preLoadPlayerSprite()
+  end
+  player = getDefaultPlayer(1000)
+end
+
 -- Pre loads player sprite
 function preLoadPlayerSprite()
   pigeonSprite = love.graphics.newImage("media/images/pigeonSprite2.png")

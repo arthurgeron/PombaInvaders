@@ -34,6 +34,7 @@ end
 
 function loseLevel()
   resetScore()
+  cleanScene()
   loadFirstScene()
   setAndPrintMessage("You lost!")
 end
@@ -62,17 +63,24 @@ end
 
 function loadFirstScene()
   _bulletTimerLimiter = 1000
-  cleanScene()
   percentageOfShootingEnemies = 10
   numberOfEnemies = 2
   currentLevel = 0
+  -- Pre-loads sprites
+  loadInitializeBackgroundVariables()
+  preLoadBulletSpriteElements()
+  initializePlayerVariables()
+  initializeEnemyVariables()
+  -- Loads scene
   sceneLoad()
 end
 
 
 function cleanScene()
+  initializeEnemyVariables()
   resetEnemiesTable()
-  player = getDefaultPlayer(_bulletTimerLimiter)
+  resetBulletsTable()
+  initializePlayerVariables()
   resetBulletsTimer()
 end
 
@@ -85,7 +93,7 @@ end
 function loadNextScene()
   oldPlayerXPos = player.x
   oldPlayerYPos = player.y
-  if(_bulletTimerLimiter>500) then
+  if(_bulletTimerLimiter>300) then
     _bulletTimerLimiter = _bulletTimerLimiter - 100
   end
   -- Makes enemies smaller so more enemies can fit the scene
