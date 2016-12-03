@@ -1,6 +1,8 @@
+local bulletDefaultWidth = 4
+local bulletDefaultHeight = 20
 bullets={}
-pigeonBulletSprite = nil
-bulletQuads = {}
+local pigeonBulletSprite = nil
+local bulletQuads = {}
 
 -- Loops trough current existing bullets table
 function DetectBulletCollisions(bulletsTable,particlesTable)
@@ -38,6 +40,11 @@ function DetectBulletCollisions(bulletsTable,particlesTable)
         end
       end
     end
+end
+
+
+function getDefaultBulletWidthHeight()
+  return bulletDefaultWidth, bulletDefaultHeight
 end
 
 

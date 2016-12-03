@@ -3,7 +3,6 @@ local numberOfEnemies = 0
 local currentLevel = 0
 local _bulletTimerLimiter = 0
 
-
 -- Returns the amount of enemies that should fire
 function getPercentageOfShootingEnemies()
   return percentageOfShootingEnemies

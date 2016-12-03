@@ -69,7 +69,7 @@ function randomShootingTrigger(percentageOfEnemyes)
   for index, enemy in ipairs(enemies) do
     if(( love.timer.getTime() - enemy.timer )*1000 > 3000) then
       if(love.math.random(7) == 1) then -- 1 in 3 chances of firing each 3 seconds
-        fireBullet(1,true,enemy.x + (enemy.width / 2),enemy.y + enemy.height, 4, 20)
+        enemy.fire()
         numberOfEnemiesTriggered = numberOfEnemiesTriggered + 1
       end
       enemy.timer = love.timer.getTime() -- Resets timer
@@ -131,8 +131,39 @@ function createEnemy(enemiesTable,x,y,width,height, direction, maxXDistanceToMov
     enemy.minX = enemy.x - maxXDistanceToMove
     enemy.maxX = enemy.x
   end
+
+  -- Overrides the calculateNewPosition function
+  enemy.calculateNewPosition = function(this)
+    if (this.warp == true) then -- If it's a warping object
+      if this.x > love.graphics.getWidth() or this.x < 0 then
+          this.x = this.initialX
+      else
+          this.x = this.x + this.speedX
+      end
+      if (this.y > love.graphics.getHeight() or this.y < 0) then
+          this.y = this.initialY
+       else
+          this.y  = this.y  +  this.speedY
+      end
+    else -- If it's not a warping object
+      if ((this.baseMovementSpeedX > 0 and this.x >= this.maxX) or (this.baseMovementSpeedX < 0 and this.x <= this.minX)) then
+        this.y = this.y + 10
+        this.baseMovementSpeedX = this.baseMovementSpeedX * -1
+      else
+        this.x = this.x + this.baseMovementSpeedX
+      end
+    end
+    if(CheckCollision(this, player)) then
+      lost()
+    end
+  end
   -- Defines enemy timer which will be used for random shooting
   enemy.timer = love.timer.getTime()
+  enemy.fire=function()
+      fireBullet(1,true,enemy.x + (enemy.width / 2),enemy.y + enemy.height, 4, 20)
+    -- Plays laser sound FX
+    playLaserSound()
+  end
   return enemy
 end
 

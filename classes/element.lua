@@ -40,49 +40,9 @@ function createElement(initialWidth, initialHeight, initialColor, x, y, _type)
       timer = -1,
 
       calculateNewPosition = function (this)
-          if (this.type.value == "obstacle") then
-              if this.x > love.graphics.getWidth() or this.x < 0 then
-                  this.x = this.initialX
-              else
-                  this.x = this.x + this.speedX
-              end
-              if (this.y > love.graphics.getHeight() or this.y < 0) then
-                  this.y = this.initialY
-               else
-                  this.y  = this.y  +  this.speedY
-              end
-              if(CheckCollision(this, player)) then
-                lost()
-              end
-
-          elseif (this.type.value == "enemy") then -- If it's an enemy
-            if (this.warp == true) then -- If it's a warping object
-              if this.x > love.graphics.getWidth() or this.x < 0 then
-                  this.x = this.initialX
-              else
-                  this.x = this.x + this.speedX
-              end
-              if (this.y > love.graphics.getHeight() or this.y < 0) then
-                  this.y = this.initialY
-               else
-                  this.y  = this.y  +  this.speedY
-              end
-            else -- If it's not a warping object
-              if ((this.baseMovementSpeedX > 0 and this.x >= this.maxX) or (this.baseMovementSpeedX < 0 and this.x <= this.minX)) then
-                this.y = this.y + 10
-                this.baseMovementSpeedX = this.baseMovementSpeedX * -1
-              else
-                this.x = this.x + this.baseMovementSpeedX
-              end
-            end
-            if(CheckCollision(this, player)) then
-              lost()
-            end
-          else -- Default
-            this.x  =  this.x  +  this.speedX
-            this.y = this.y + this.speedY
-          end
-
+       -- Default
+        this.x  =  this.x  +  this.speedX
+        this.y = this.y + this.speedY
       end
     }
     return element
