@@ -1,14 +1,14 @@
 local bulletDefaultWidth = 4
 local bulletDefaultHeight = 20
-bullets={}
+local bullets={}
 local pigeonBulletSprite = nil
 local bulletQuads = {}
 
 -- Loops trough current existing bullets table
-function DetectBulletCollisions(bulletsTable,particlesTable)
-    for index, bullet in ipairs(bulletsTable) do
+function DetectBulletCollisions(particlesTable)
+    for index, bullet in ipairs(bullets) do
       if bullet.y < (0 - bullet.height) then--If out of limits then remove
-        table.remove(bulletsTable, index)
+        table.remove(bullets, index)
       end
       -- Bullet speed movement
       bullet.y = bullet.y + bullet.direction

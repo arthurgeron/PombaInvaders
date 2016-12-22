@@ -1,7 +1,5 @@
 enemies = {}
-local enemySprite = nil
-local enemyQuads = {}
-local FRAMES = 0
+local enemiesSprites = {}
 local enemyScaleFactor = nil
 enemyXScaleFactor = enemyScaleFactor
 enemyYScaleFactor = enemyScaleFactor
@@ -34,23 +32,102 @@ end
 
 
 function initializeEnemyVariables()
-  enemyScaleFactor = 0.2
+  enemyScaleFactor = 0.4
   enemyXScaleFactor = enemyScaleFactor
   enemyYScaleFactor = enemyScaleFactor
-  if (enemySprite == nil) then
-    preLoadEnemySpriteElements()
-  end
+  preLoadEnemySprites()
 end
 
 -- Pre load sprite that will be used by all enemies
-function preLoadEnemySpriteElements()
-  enemySprite = love.graphics.newImage("media/images/monsterSprite.png")
-  FRAMES = 4
-  enemyTimer = 0
-  table.insert(enemyQuads, love.graphics.newQuad(0, 0,369,288 , enemySprite:getDimensions()))
-  table.insert(enemyQuads, love.graphics.newQuad(369, 0, 369, 288 , enemySprite:getDimensions()))
-  table.insert(enemyQuads, love.graphics.newQuad(743, 0, 369, 288, enemySprite:getDimensions()))
-  table.insert(enemyQuads, love.graphics.newQuad(1115, 0, 369, 288, enemySprite:getDimensions()))
+function preLoadEnemySprites()
+  if(enemiesSprites[1] == nil) then
+  -- First Eenemy
+    enemy = {}
+    enemy.width = 242
+    enemy.height = 192
+    enemy.deathAnimationWidth = 387
+    enemy.deathAnimationHeight = 381
+    enemy.sprite = love.graphics.newImage("media/images/monsterSprite01.png")
+    enemy.frames = 9
+    enemy.deathFrames = 6
+    enemy.animationSpeed = 0.000001
+    enemy.timer = 0
+    enemy.currentQuad = 5
+    enemy.quads = {}
+    enemy.deathQuads = {}
+    table.insert(enemy.quads, love.graphics.newQuad(119, 96, 162, 192, enemy.sprite:getDimensions()))
+    table.insert(enemy.quads, love.graphics.newQuad(474, 126, 229, 159, enemy.sprite:getDimensions()))
+    table.insert(enemy.quads, love.graphics.newQuad(852, 135, 224, 148, enemy.sprite:getDimensions()))
+    table.insert(enemy.quads, love.graphics.newQuad(1287, 133, 148, 187, enemy.sprite:getDimensions()))
+    table.insert(enemy.quads, love.graphics.newQuad(1662, 97, 167, 191, enemy.sprite:getDimensions()))
+    table.insert(enemy.quads, love.graphics.newQuad(2032, 126, 228, 159, enemy.sprite:getDimensions()))
+    table.insert(enemy.quads, love.graphics.newQuad(2400, 136, 242, 146, enemy.sprite:getDimensions()))
+    table.insert(enemy.quads, love.graphics.newQuad(2834, 133, 151, 186, enemy.sprite:getDimensions()))
+    table.insert(enemy.quads, love.graphics.newQuad(3220, 137, 152, 174, enemy.sprite:getDimensions()))
+    -- Death quads
+    table.insert(enemy.deathQuads, love.graphics.newQuad(3551, 126, 264, 183, enemy.sprite:getDimensions()))
+    table.insert(enemy.deathQuads, love.graphics.newQuad(3936, 90, 255, 231, enemy.sprite:getDimensions()))
+    table.insert(enemy.deathQuads, love.graphics.newQuad(4304, 34, 312, 323, enemy.sprite:getDimensions()))
+    table.insert(enemy.deathQuads, love.graphics.newQuad(4658, 4, 360, 368, enemy.sprite:getDimensions()))
+    table.insert(enemy.deathQuads, love.graphics.newQuad(5031, 0, 387, 381, enemy.sprite:getDimensions()))
+    table.insert(enemy.deathQuads, love.graphics.newQuad(5466, 57, 296, 253, enemy.sprite:getDimensions()))
+    table.insert(enemiesSprites, enemy)
+  -- Second enemy
+    enemy2 = nil
+    enemy2 = {}
+    enemy.width = 221
+    enemy.height = 172
+    enemy.deathAnimationWidth = 308
+    enemy.deathAnimationHeight = 301
+    enemy2.sprite = love.graphics.newImage("media/images/monsterSprite02.png")
+    enemy2.frames = 5
+    enemy2.deathFrames = 6
+    enemy.animationSpeed = 1
+    enemy2.timer = 0
+    enemy2.quads = {}
+    enemy2.deathQuads = {}
+    table.insert(enemy2.quads, love.graphics.newQuad(91, 63, 160, 172, enemy.sprite:getDimensions()))
+    table.insert(enemy2.quads, love.graphics.newQuad(367, 89, 221, 142, enemy.sprite:getDimensions()))
+    table.insert(enemy2.quads, love.graphics.newQuad(671, 100, 221, 128, enemy.sprite:getDimensions()))
+    table.insert(enemy2.quads, love.graphics.newQuad(1020, 102, 138, 165, enemy.sprite:getDimensions()))
+    -- Death quads
+    table.insert(enemy2.deathQuads, love.graphics.newQuad(1574, 102, 262, 139, enemy.sprite:getDimensions()))
+    table.insert(enemy2.deathQuads, love.graphics.newQuad(1935, 73, 171, 183, enemy.sprite:getDimensions()))
+    table.insert(enemy2.deathQuads, love.graphics.newQuad(2194, 27, 250, 259, enemy.sprite:getDimensions()))
+    table.insert(enemy2.deathQuads, love.graphics.newQuad(2475, 4, 289, 291, enemy.sprite:getDimensions()))
+    table.insert(enemy2.deathQuads, love.graphics.newQuad(2772, 0, 308, 301, enemy.sprite:getDimensions()))
+    table.insert(enemy2.deathQuads, love.graphics.newQuad(3126, 46, 229, 202, enemy.sprite:getDimensions()))
+    table.insert(enemiesSprites, enemy2)
+  -- Third enemy
+    enemy3 = nil
+    enemy3 = {}
+    enemy.width = 250
+    enemy.height = 195
+    enemy.deathAnimationWidth = 362
+    enemy.deathAnimationHeight = 367
+    enemy3.sprite = love.graphics.newImage("media/images/monsterSprite03.png")
+    enemy3.frames = 5
+    enemy3.deathFrames = 8
+    enemy.animationSpeed = 1
+    enemy3.timer = 0
+    enemy3.quads = {}
+    enemy3.deathQuads = {}
+    table.insert(enemy3.quads, love.graphics.newQuad(117, 96, 170, 195 , enemy.sprite:getDimensions()))
+    table.insert(enemy3.quads, love.graphics.newQuad(474, 126, 233, 162 , enemy.sprite:getDimensions()))
+    table.insert(enemy3.quads, love.graphics.newQuad(849, 136, 250, 150, enemy.sprite:getDimensions()))
+    table.insert(enemy3.quads, love.graphics.newQuad(1278, 133, 157, 187, enemy.sprite:getDimensions()))
+    table.insert(enemy3.quads, love.graphics.newQuad(1663, 136, 158, 176, enemy.sprite:getDimensions()))
+    -- Death Quads
+    table.insert(enemy3.deathQuads, love.graphics.newQuad(1994, 125, 266, 182, enemy.sprite:getDimensions()))
+    table.insert(enemy3.deathQuads, love.graphics.newQuad(2378, 90, 254, 229, enemy.sprite:getDimensions()))
+    table.insert(enemy3.deathQuads, love.graphics.newQuad(2743, 34, 311, 322, enemy.sprite:getDimensions()))
+    table.insert(enemy3.deathQuads, love.graphics.newQuad(3094, 4, 362, 367, enemy.sprite:getDimensions()))
+    table.insert(enemy3.deathQuads, love.graphics.newQuad(3465, 0, 343, 313, enemy.sprite:getDimensions()))
+    table.insert(enemy3.deathQuads, love.graphics.newQuad(3850, 0, 343, 313, enemy.sprite:getDimensions()))
+    table.insert(enemy3.deathQuads, love.graphics.newQuad(4294, 56, 285, 257, enemy.sprite:getDimensions()))
+    table.insert(enemy3.deathQuads, love.graphics.newQuad(4684, 59, 279, 246, enemy.sprite:getDimensions()))
+    table.insert(enemiesSprites, enemy3)
+  end
 end
 
 
@@ -83,10 +160,9 @@ end
 
 -- Updates Enemies Sprite's timers
 function updateEnemySpriteTimer(dt)
+
   for index, enemy in ipairs(enemies) do
-    if (enemy.spriteTimer ~= nil) then
-      enemy.spriteTimer = enemy.spriteTimer + dt * FRAMES
-    end
+    enemy.updateCounter = enemy.updateCounter + enemy.sprite.animationSpeed
   end
 end
 
@@ -101,8 +177,17 @@ function drawEnemies()
       enemyFlipScaleFactor =  -1
       enemyXPositionFix = enemy.width
     end
-    love.graphics.draw(enemySprite, enemyQuads[(math.floor(enemy.spriteTimer) % FRAMES) + 1], enemy.x + enemyXPositionFix, enemy.y, 0, enemyXScaleFactor * enemyFlipScaleFactor, enemyYScaleFactor)
+    print(enemy.updateCounter)
+    if (enemy.updateCounter - math.floor(enemy.updateCounter) == 0 ) then
+      enemy.currentQuad = enemy.updateCounter
+    end
+    if (enemy.updateCounter > enemy.frames) then
+      enemy.updateCounter = 1
+      enemy.currentQuad = enemy.updateCounter
+    end
+    love.graphics.draw(enemy.sprite.sprite, enemy.sprite.quads[math.floor(dt+1)], enemy.x + enemyXPositionFix, enemy.y, 0, enemyXScaleFactor * enemyFlipScaleFactor, enemyYScaleFactor)
   end
+
 end
 
 
@@ -112,7 +197,16 @@ function createEnemy(enemiesTable,x,y,width,height, direction, maxXDistanceToMov
   enemy.x = x
   enemy.y = y
   enemy.initialX = x
-  enemy.spriteTimer = 0
+  enemy.sprite = enemiesSprites[1]
+  enemy.width = enemy.sprite.width * enemyScaleFactor
+  enemy.height = enemy.sprite.height * enemyScaleFactor
+  enemy.frames = enemy.sprite.frames
+  enemy.deathFrames = enemy.sprite.deathFrames
+  enemy.updateCounter = 0.0001
+  enemy.timer = 0
+  enemy.currentQuad = 1
+  enemy.curentDeathQuad = 0
+  enemy.isDead = false
   -- Makes sure the enemy will move in the right direction
   if(direction>0) then
     if(enemy.baseMovementSpeedX<0) then
